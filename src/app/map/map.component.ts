@@ -8,14 +8,42 @@ import * as L from 'leaflet';
   styleUrls: ['./map.component.less']
 })
 export class MapComponent implements AfterViewInit {
-  
-  ngAfterViewInit(): void {
-    // Initialize the map with a default view (e.g., Paris)
-    const map = L.map('map').setView([48.8566, 2.3522], 13);
 
-    // Set the tile layer for the map (OpenStreetMap in this case)
+  private defaultCoords: [number, number] = [44.8333, -0.5667]; // Bordeaux fallback
+  private map!: L.Map;
+
+  ngAfterViewInit(): void {
+    this.initMap();
+  }
+
+  private initMap(): void {
+    this.map = L.map('map');
+
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       attribution: '© OpenStreetMap contributors'
-    }).addTo(map);
+    }).addTo(this.map);
+
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          const userCoords: [number, number] = [
+            position.coords.latitude,
+            position.coords.longitude
+          ];
+          this.map.setView(userCoords, 13);
+
+          L.marker(userCoords).addTo(this.map)
+            .bindPopup('You are here !')
+            .openPopup();
+        },
+        (error) => {
+          console.warn('Geolocation failed, using fallback.', error);
+          this.map.setView(this.defaultCoords, 13);
+        }
+      );
+    } else {
+      console.warn('Geolocation not supported.');
+      this.map.setView(this.defaultCoords, 13);
+    }
   }
 }
