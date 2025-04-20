@@ -1,14 +1,16 @@
 import { Routes } from '@angular/router';
+import { ShellComponent } from '@app/core/shell/shell.component';
 
 export const routes: Routes = [
-    {
-        path: '',
-        redirectTo: 'planner',
-        pathMatch: 'full'
-      },
+  {
+    path: '',
+    component: ShellComponent,
+    children: [
       {
-        path: 'planner',
-        loadChildren: () =>
-          import('./features/planner/planner.routes').then((m) => m.PLANNER_ROUTES)
+        path: '',
+        loadComponent: () =>
+          import('@app/features/planner/planner.component').then((m) => m.PlannerComponent)
       }
+    ]
+  }
 ];
