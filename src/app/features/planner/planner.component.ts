@@ -1,10 +1,11 @@
 import { Component } from '@angular/core';
+import { MapComponent } from '@app/map/map.component';
 
 @Component({
   selector: 'app-planner',
-  imports: [],
+  imports: [MapComponent],
   templateUrl: './planner.component.html',
-  styleUrl: './planner.component.less'
+  styleUrls: ['./planner.component.less']
 })
 export class PlannerComponent {
 
