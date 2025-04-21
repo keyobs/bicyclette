@@ -1,0 +1,13 @@
+<form [formGroup]="form" (ngSubmit)="submit()">
+	<mat-form-field appearance="fill" class="form-field">
+		<mat-label>Start Location</mat-label>
+		<input matInput formControlName="start" required />
+	</mat-form-field>
+
+	<mat-form-field appearance="fill" class="form-field">
+		<mat-label>End Location</mat-label>
+		<input matInput formControlName="end" required />
+	</mat-form-field>
+
+	<button mat-raised-button color="primary" type="submit">Plan Trip</button>
+</form>

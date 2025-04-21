@@ -1,5 +1,5 @@
 <app-drawer #tripCreationDrawer [title]="'Plan a trip'" [opened]="isDrawerOpen" (closed)="handleCloseDrawer()">
-	<div>Form</div>
+	<app-creation-trip-form (submitted)="handleTripFormSubmit($event)"></app-creation-trip-form>
 
 	<div drawerContent>
 		<div class="planner-layout">
