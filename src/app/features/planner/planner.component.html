@@ -1,4 +1,10 @@
-<div class="planner-container">
-    <div> Plan your journey</div>
-    <app-map></app-map>
-</div>
+<app-drawer #tripCreationDrawer [title]="'Plan a trip'" [opened]="isDrawerOpen" (closed)="handleCloseDrawer()">
+	<div>Form</div>
+
+	<div drawerContent>
+		<div class="planner-layout">
+			<app-command-panel (openDrawer)="handleOpenDrawer()" (locate)="centerMapOnUser()"></app-command-panel>
+			<app-map></app-map>
+		</div>
+	</div>
+</app-drawer>

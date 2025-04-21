@@ -1,12 +1,29 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { MapComponent } from '@app/map/map.component';
+import { DrawerComponent } from '@app/components/drawer/drawer.component';
+import { CommandPanelComponent } from '@app/features/planner/command-pannel/command-pannel.component';
 
 @Component({
   selector: 'app-planner',
-  imports: [MapComponent],
+  standalone: true,
+  imports: [MapComponent, DrawerComponent, CommandPanelComponent],
   templateUrl: './planner.component.html',
   styleUrls: ['./planner.component.less']
 })
 export class PlannerComponent {
+  isDrawerOpen = false;
 
+  @ViewChild('tripCreationDrawer') drawer!: DrawerComponent;
+
+  handleOpenDrawer() {
+    this.drawer.open();
+  }
+
+  handleCloseDrawer(): void {
+    this.isDrawerOpen = false;
+  }
+
+  centerMapOnUser() {
+    // center map to user currentlocation
+  }
 }

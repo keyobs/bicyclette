@@ -1,0 +1,18 @@
+<mat-sidenav-container class="drawer-container">
+  <mat-sidenav #drawer mode="over" [opened]="opened" class="drawer-sidenav">
+    <div class="drawer-header" *ngIf="title || closeable">
+      <div class="drawer-title">{{ title }}</div>
+      <button *ngIf="closeable" mat-icon-button (click)="close()">
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
+
+    <div class="drawer-body">
+      <ng-content></ng-content>
+    </div>
+  </mat-sidenav>
+
+  <mat-sidenav-content>
+    <ng-content select="[drawerContent]"></ng-content>
+  </mat-sidenav-content>
+</mat-sidenav-container>
