@@ -23,7 +23,8 @@
       "@map/*": ["app/map/*"],
       "@features/*": ["app/features/*"],
       "@core/*": ["app/core/*"],
-      "@shared/*": ["app/shared/*"]
+      "@shared/*": ["app/shared/*"],
+      "@environments/*": ["environments/*"],
     }
   },
   "angularCompilerOptions": {

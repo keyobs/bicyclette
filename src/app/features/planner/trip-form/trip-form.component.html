@@ -1,13 +1,23 @@
 <form [formGroup]="form" (ngSubmit)="submit()">
 	<mat-form-field appearance="fill" class="form-field">
 		<mat-label>Start Location</mat-label>
-		<input matInput formControlName="start" required />
+		<input matInput formControlName="start" [matAutocomplete]="autoStart" autocomplete="off" />
+		<mat-autocomplete #autoStart="matAutocomplete" (optionSelected)="onStartSelect($event.option.value)">
+			<mat-option *ngFor="let suggestion of startSuggestions$ | async" [value]="suggestion">
+				{{ formatLocation(suggestion) }}
+			</mat-option>
+		</mat-autocomplete>
 	</mat-form-field>
 
 	<mat-form-field appearance="fill" class="form-field">
 		<mat-label>End Location</mat-label>
-		<input matInput formControlName="end" required />
+		<input matInput formControlName="end" [matAutocomplete]="autoEnd" autocomplete="off" />
+		<mat-autocomplete #autoEnd="matAutocomplete" (optionSelected)="onEndSelect($event.option.value)">
+			<mat-option *ngFor="let suggestion of endSuggestions$ | async" [value]="suggestion">
+				{{ formatLocation(suggestion) }}
+			</mat-option>
+		</mat-autocomplete>
 	</mat-form-field>
 
-	<button mat-raised-button color="primary" type="submit">Plan Trip</button>
+	<button mat-raised-button color="primary" type="submit">Plan this trip</button>
 </form>
