@@ -1,5 +1,5 @@
 import { Routes } from '@angular/router';
-import { ShellComponent } from '@app/core/shell/shell.component';
+import { ShellComponent } from '@app/core/layout/shell/shell.component';
 
 export const routes: Routes = [
   {
