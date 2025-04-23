@@ -8,12 +8,13 @@ import { environment } from '@environments/environment';
 })
 export class GeoapifyService {
 	private apiKey = environment.geoapifyApiKey;
+	private baseUrl = 'https://api.geoapify.com/v1/geocode/autocomplete';
 
 	constructor(private http: HttpClient) {}
 
 	autocompleteCitySearch(query: string): Observable<any[]> {
 		if (!query) return of([]);
-		const url = `https://api.geoapify.com/v1/geocode/autocomplete?text=${encodeURIComponent(query)}&limit=5&type=city&apiKey=${this.apiKey}`;
+		const url = `${this.baseUrl}?text=${encodeURIComponent(query)}&limit=5&type=city&apiKey=${this.apiKey}`;
 		return this.http.get<any>(url).pipe(map((res) => res.features || []));
 	}
 }

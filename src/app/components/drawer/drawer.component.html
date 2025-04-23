@@ -1,4 +1,4 @@
-<mat-sidenav-container class="drawer-container">
+<mat-sidenav-container class="drawer-container" [hasBackdrop]=false>
   <mat-sidenav #drawer mode="over" [opened]="opened" class="drawer-sidenav">
     <div class="drawer-header" *ngIf="title || closeable">
       <div class="drawer-title">{{ title }}</div>

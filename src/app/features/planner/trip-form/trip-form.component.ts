@@ -1,4 +1,5 @@
 import { GeoapifyService } from '@app/core/api/geoapify.service';
+import { OpenRouteService } from '@app/core/api/openrouteservice.service';
 import { AsyncPipe, NgFor } from '@angular/common';
 import { Component, Output, EventEmitter } from '@angular/core';
 import { ReactiveFormsModule, FormBuilder, FormGroup } from '@angular/forms';
@@ -27,7 +28,7 @@ import { MatOptionModule } from '@angular/material/core';
 	],
 	templateUrl: './trip-form.component.html',
 	styleUrls: ['./trip-form.component.less'],
-	providers: [GeoapifyService]
+	providers: [GeoapifyService, OpenRouteService]
 })
 export class TripFormComponent {
 	@Output() submitted = new EventEmitter<{
@@ -44,9 +45,12 @@ export class TripFormComponent {
 	private selectedStartCoords: [number, number] | null = null;
 	private selectedEndCoords: [number, number] | null = null;
 
+	routeFound = new EventEmitter<any>();
+
 	constructor(
 		private fb: FormBuilder,
-		private geoapify: GeoapifyService
+		private geoapify: GeoapifyService,
+		private openRouteService: OpenRouteService
 	) {
 		this.form = this.fb.group({
 			start: [''],
@@ -67,15 +71,14 @@ export class TripFormComponent {
 	}
 
 	onStartSelect(feature: any): void {
-		console.log('Selected start feature:', feature);
-		this.form.get('start')?.setValue((this.formatLocation(feature) || feature.properties.formatted), {
+		this.form.get('start')?.setValue(this.formatLocation(feature) || feature.properties.formatted, {
 			emitEvent: false
 		});
 		this.selectedStartCoords = [feature.geometry.coordinates[1], feature.geometry.coordinates[0]];
 	}
 
 	onEndSelect(feature: any): void {
-		this.form.get('end')?.setValue(this.formatLocation(feature)|| feature.properties.formatted, {
+		this.form.get('end')?.setValue(this.formatLocation(feature) || feature.properties.formatted, {
 			emitEvent: false
 		});
 		this.selectedEndCoords = [feature.geometry.coordinates[1], feature.geometry.coordinates[0]];
@@ -94,6 +97,19 @@ export class TripFormComponent {
 				startCoords: this.selectedStartCoords,
 				end: this.form.value.end,
 				endCoords: this.selectedEndCoords
+			});
+		}
+	}
+
+	getRoute() {
+		if (this.selectedStartCoords && this.selectedEndCoords) {
+			this.openRouteService
+				.getCyclingRoute(this.selectedStartCoords, this.selectedEndCoords)
+				.subscribe((response: any) => {
+					const routeGeoJson = response?.features?.[0] || null;
+					if (routeGeoJson) {
+						this.routeFound.emit(routeGeoJson);
+					}
 			});
 		}
 	}

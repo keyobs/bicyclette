@@ -1,10 +1,10 @@
 <app-drawer #tripCreationDrawer [title]="'Plan a trip'" [opened]="isDrawerOpen" (closed)="handleCloseDrawer()">
-	<app-creation-trip-form (submitted)="handleTripFormSubmit($event)"></app-creation-trip-form>
+	<app-creation-trip-form (submitted)="handleTripFormSubmit($event)" (routeCalculated)="displayRoute($event)"></app-creation-trip-form>
 
 	<div drawerContent>
 		<div class="planner-layout">
 			<app-command-panel (openDrawer)="handleOpenDrawer()" (locate)="centerMapOnUser()"></app-command-panel>
-			<app-map></app-map>
+			<app-map #mapComponent></app-map>
 		</div>
 	</div>
 </app-drawer>
